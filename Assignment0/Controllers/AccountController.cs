@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using System.IO;
 
 namespace Assignment0.Controllers
 {
@@ -32,9 +33,32 @@ namespace Assignment0.Controllers
 
         [HttpPost]
         public IActionResult Registration(RegistrationViewModel model)
-        {
+        {   
+            Console.WriteLine("Registration method called");
             if (ModelState.IsValid)
-            {
+            {   Console.WriteLine("Model is valid");
+                string uniqueFileName = null;
+                var fileName = model.ProfilePicture.FileName;
+                var extension = Path.GetExtension(fileName).ToLower();
+
+                if (model.ProfilePicture.Length > 0 && (extension != ".jpg" || extension != ".jpeg"))
+                {
+                    Console.WriteLine("File is not null");
+
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                    Directory.CreateDirectory(uploadsFolder); // Ensure the folder exists
+
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfilePicture.FileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.ProfilePicture.CopyTo(fileStream);
+                    }
+
+                }
+                Console.WriteLine(uniqueFileName);
+
                 UserAccount acount = new UserAccount
                 {
                     Name = model.Name,
@@ -43,6 +67,7 @@ namespace Assignment0.Controllers
                     Gender = model.Gender,
                     Education = model.Education,
                     MobileNumber = model.MobileNumber,
+                    ProfilePicturePath = uniqueFileName,
                 };
 
                 try
@@ -56,7 +81,7 @@ namespace Assignment0.Controllers
                 }
                 catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", "Email ID Already Exists");
+                    ModelState.AddModelError("", "Email ID or Name Already Exists");
                     return View(model);
                 }
 
@@ -115,7 +140,12 @@ namespace Assignment0.Controllers
         public IActionResult SecurePage()
         {
             ViewBag.Name = HttpContext.User.Identity.Name;
-            ViewBag.Email = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+            ViewBag.Email = email;
+
+            var user = _context.UserAccounts.Where(u => u.Email == email).FirstOrDefault();
+            ViewBag.ProfilePicturePath = user.ProfilePicturePath;
+
             return View();
         }
 

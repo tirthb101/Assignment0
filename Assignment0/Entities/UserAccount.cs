@@ -42,8 +42,8 @@ namespace Assignment0.Entities
         [Length(10, 10, ErrorMessage = "Mobile number Must have Length equal to 10 charactors")]
         public string MobileNumber { get; set; }
 
-        //[Required(ErrorMessage = "Profile Picture is required")]
-        //public string ProfilePicturePath { get; set; }
+        [Required(ErrorMessage = "Profile Picture is required")]
+        public string ProfilePicturePath { get; set; }
 
 
 

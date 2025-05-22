@@ -44,7 +44,12 @@ namespace Assignment0.Models
                 public string MobileNumber { get; set; }
 
 
+                [Required(ErrorMessage = "Profile Picture is required")]
+                [DataType(DataType.Upload)]
+                public IFormFile ProfilePicture { get; set; }
 
-        
+
+
+
     }
 }
