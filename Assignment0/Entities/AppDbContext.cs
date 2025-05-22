@@ -11,5 +11,7 @@ namespace Assignment0.Entities
         }
 
         public DbSet<UserAccount> UserAccounts { get; set; }
+
+        public DbSet<CountryTable> CountryTables { get; set; }
     }
 }

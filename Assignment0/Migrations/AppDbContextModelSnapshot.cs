@@ -21,6 +21,27 @@ namespace Assignment0.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Assignment0.Entities.CountryTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryName")
+                        .IsUnique();
+
+                    b.ToTable("CountryTables");
+                });
+
             modelBuilder.Entity("Assignment0.Entities.UserAccount", b =>
                 {
                     b.Property<int>("Id")

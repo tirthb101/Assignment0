@@ -34,16 +34,16 @@ namespace Assignment0.Controllers
         [HttpPost]
         public IActionResult Registration(RegistrationViewModel model)
         {   
-            Console.WriteLine("Registration method called");
+
             if (ModelState.IsValid)
-            {   Console.WriteLine("Model is valid");
+            {   
                 string uniqueFileName = null;
                 var fileName = model.ProfilePicture.FileName;
                 var extension = Path.GetExtension(fileName).ToLower();
 
                 if (model.ProfilePicture.Length > 0 && (extension != ".jpg" || extension != ".jpeg"))
                 {
-                    Console.WriteLine("File is not null");
+                   
 
                     string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                     Directory.CreateDirectory(uploadsFolder); // Ensure the folder exists
@@ -57,7 +57,7 @@ namespace Assignment0.Controllers
                     }
 
                 }
-                Console.WriteLine(uniqueFileName);
+                
 
                 UserAccount acount = new UserAccount
                 {

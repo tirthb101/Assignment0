@@ -1,0 +1,45 @@
+﻿@model Assignment0.Models.CountryViewModel
+@{
+    ViewData["Title"] = "Add Country";
+    var countries = ViewBag.Countries as List<string>;
+}
+
+<h2>Add Country</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+<form asp-action="Country" method="post">
+    <div class="form-group">
+        <label asp-for="CountryName"></label>
+        <input asp-for="CountryName" class="form-control" />
+        <span asp-validation-for="CountryName" class="text-danger"></span>
+    </div>
+    <div style="height:20px"></div>
+    <button type="submit" class="btn btn-primary">Add Country</button>
+</form>
+
+<hr />
+
+<h3>Existing Countries</h3>
+@if (countries != null && countries.Any())
+{
+    <ul class="list-group">
+        @foreach (var country in countries)
+        {
+            <li class="list-group-item">@country</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No countries found.</p>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

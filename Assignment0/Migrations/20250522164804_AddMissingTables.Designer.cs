@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assignment0.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250522115805_2.0")]
-    partial class _20
+    [Migration("20250522164804_AddMissingTables")]
+    partial class AddMissingTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,27 @@ namespace Assignment0.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Assignment0.Entities.CountryTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryName")
+                        .IsUnique();
+
+                    b.ToTable("CountryTables");
+                });
 
             modelBuilder.Entity("Assignment0.Entities.UserAccount", b =>
                 {
