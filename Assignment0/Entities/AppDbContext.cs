@@ -15,5 +15,8 @@ namespace Assignment0.Entities
         public DbSet<CountryTable> CountryTables { get; set; }
 
         public DbSet<StateTable> StateTables { get; set; }
+
+        public DbSet<CityTable> CityTables { get; set; }
+
     }
 }
