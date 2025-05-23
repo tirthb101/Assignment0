@@ -1,5 +1,6 @@
 ﻿using Assignment0.Entities;
 using Assignment0.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assignment0.Controllers
@@ -13,6 +14,8 @@ namespace Assignment0.Controllers
         {
             _context = context;
         }
+
+        [Authorize]
         public IActionResult Country()
         { 
             ViewBag.Countries = _context.CountryTables.Select(c => c.CountryName).ToList();
@@ -20,6 +23,7 @@ namespace Assignment0.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Country(CountryViewModel model)
         {
             if (ModelState.IsValid)

@@ -91,6 +91,39 @@ namespace Assignment0.Migrations
 
                     b.ToTable("UserAccounts");
                 });
+
+            modelBuilder.Entity("StateTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("StateTables");
+                });
+
+            modelBuilder.Entity("StateTable", b =>
+                {
+                    b.HasOne("Assignment0.Entities.CountryTable", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -46,7 +46,7 @@ namespace Assignment0.Controllers
                    
 
                     string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    Directory.CreateDirectory(uploadsFolder); // Ensure the folder exists
+                    Directory.CreateDirectory(uploadsFolder); 
 
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfilePicture.FileName);
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);

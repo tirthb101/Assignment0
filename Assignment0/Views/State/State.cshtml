@@ -1,0 +1,62 @@
+﻿@model Assignment0.Models.StateViewModel
+
+@{
+    ViewData["Title"] = "Manage States";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<h2>Manage States</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+<form asp-action="State" method="post">
+    <div class="form-group">
+        <label asp-for="StateName" class="control-label"></label>
+        <input asp-for="StateName" class="form-control" />
+        <span asp-validation-for="StateName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CountryId" class="control-label">Country</label>
+        <select asp-for="CountryId" class="form-control">
+            <option value="">-- Select Country --</option>
+            @foreach (var country in ViewBag.Countries)
+            {
+                <option value="@country.Id">@country.CountryName</option>
+            }
+        </select>
+        <span asp-validation-for="CountryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Add State</button>
+</form>
+
+<hr />
+
+<h3>Existing States</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>State Name</th>
+            <th>Country Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var state in ViewBag.States)
+        {
+            <tr>
+                <td>@state.StateName</td>
+                <td>@state.CountryName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
